@@ -21,10 +21,12 @@ from django.conf.urls.static import static
 from shop import views
 
 urlpatterns = [
+    path('', include('startpage.urls')),
     path('admin/', admin.site.urls),
     path('cart/', include('cart.urls')),
     path('orders/', include('orders.urls')),
     path('shop/', include('shop.urls')),
+    path('blog/', include('blog.urls')),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
