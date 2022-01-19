@@ -1,21 +1,42 @@
 {% load static %}
 <!DOCTYPE html>
 <html>
-<head>
-    <title>{% block title %}{% endblock %}</title>
-    <link href="{% static "css/blog.css" %}" rel="stylesheet">
-</head>
-<body>
-<div id="content">
-    {% block content %}
-    {% endblock %}
-</div>
-<div id="sidebar">
-    <h2>My blog</h2>
-    <p>This is my blog.</p>
-</div>
-</div>
-    {% include "blog/pagination.html" with page=page_obj %}
-</div>
-</body>
+    <head>
+        <title>{% block title %}{% endblock %}</title>
+        <link href="{% static "css/blog.css" %}" rel="stylesheet">
+    </head>
+    <body id="body">
+            <div class="topbar_links">
+                <div class="links">
+                    <a class="link_to" href="{% url 'start_page'%}">На Главную</a>
+                    <a class="link_to" href="{% url 'product_list'%}">В Магазин</a>
+                    <a class="link_to" href="{% url 'cart_detail'%}">В Корзину</a>
+                </div>
+            </div>
+            <div class="topbar_account_manipulation">
+                <a class="link_to">Настройки аккаунта</a>
+                <a class="link_to">Выйти из аккаунта</a>
+            </div>
+            <div class="user_information">
+                <a class="link_to">Имя пользователя</a>
+                <a class="link_to">фамилия пользователя</a>
+                <a class="link_to">статус пользователя</a>
+            </div>
+            <div class="user_image">
+                <div class="user_image_sett">
+                    <img src="../static/blog/user/user.jpg" style="width: 100px;">
+                </div>
+            </div>
+            <div id="content">
+                {% block content %}
+                {% endblock %}
+            </div>
+            <div id="sidebar">
+                <h2>My blog</h2>
+                <p>This is my blog.</p>
+            </div>
+        <div id="pagination_blog">
+            {% include "blog/pagination.html" with page=posts %}
+        </div>
+    </body>
 </html>

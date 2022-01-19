@@ -1,15 +1,67 @@
 {% extends "blog/base.html" %}
 {% block title %}{{ post.title }}{% endblock %}
 {% block content %}
-    <h1>{{ post.title }}</h1>
-    <p class="date">
-        Published {{ post.publish }} by {{ post.author }}
+<div class="post">
+    <h1 class="title_post" style="height:40px;">{{ post.title }}</h1>
+    <div class='body'>
+        {{ post.body|linebreaks }}
+    </div>
+    <p class="author_post">
+        Опубликовал : {{ post.author }} 
     </p>
-{{ post.body|linebreaks }}
-<a href="{% url "post_share" post.id %}">Share this post</a>
-{% with comments.count as total_comments %}
-    <h2>
-        {{ total_comments }} comment{{ total_comments|pluralize }}
-    </h2>
-{% endwith %}
+    <p class="date_post">
+        {{ post.publish }} 
+    </p>
+    <div class="share_post">
+        <a href="{% url "post_share" post.id %}">Отправить публикацию по e-mail</a>
+    </div>
+    <div class="similar">
+        <h2>Похожие публикации</h2>
+            {% for post in similar_posts %}
+                <p>
+                    <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+                </p>
+            {% empty %}
+                Нет похожих публикаций.
+            {% endfor %}
+    </div>
+    <div class="comments">
+        {% with comments.count as total_comments %}
+        <h2>
+            Комментарии: {{ total_comments }} 
+        </h2>
+        {% endwith %}
+    </div>
+    <div class="comments_text">
+        {% for comment in comments %}
+            <div class="comment">
+                <p class="info">
+                    № {{ forloop.counter }} <br>
+                    <div class="body">
+                        {{ comment.body|linebreaks }} <br>
+                    </div>
+                    Написал: {{ comment.name }}
+                    {{ comment.created }}
+                </p>
+            </div>
+        {% empty %}
+            <p class="comments_empty">Здесь сейчас нет комментариев. <br>
+                Оставьте первый комментарий!
+            </p>
+        {% endfor %}
+    </div>
+    <div class="new_comment">
+        {% if new_comment %}
+            <h2>Ваш комментарий был добавлен.</h2>
+        {% else %}
+            <h2>Добавить новый комментарий</h2>
+            <form action="." method="post">
+                {{ comment_form.as_p }}
+                {% csrf_token %}
+                <p><input type="submit" value="Добавить комментарий"></p>
+            </form>
+        {% endif %}
+    </div>
+    <a class="link_to" href="{% url 'post_list'%}">Назад</a>
+</div>
 {% endblock %}
