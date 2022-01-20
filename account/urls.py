@@ -1,6 +1,7 @@
+from unicodedata import name
 from django.urls import path
 from . import views
-from django.contrib.auth.views import LoginView, LogoutView, logout_then_login
+from django.contrib.auth.views import LoginView, LogoutView, logout_then_login, PasswordChangeView, PasswordChangeDoneView, PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
 
 
 urlpatterns = [
@@ -18,4 +19,30 @@ urlpatterns = [
         # name="logout_then_login"
     ),
   path('', views.dashboard, name='dashboard'),
+  path('password-change/', 
+        PasswordChangeView.as_view(),
+        name = "password_change" 
+    ),
+  path('password-change/done/', 
+        PasswordChangeDoneView.as_view(),
+        name = "password_change_done" 
+    ),
+  path('password-reset/', 
+        PasswordResetView.as_view(),
+        name = "password_reset" 
+    ),
+  path('password-reset-done/', 
+        PasswordResetDoneView.as_view(),
+        name = "password_reset_done" 
+    ),
+  path('password-reset-confirm/', 
+        PasswordResetConfirmView.as_view(),
+        name = "password_reset_confirm" 
+    ),
+  path('password-reset-complete/', 
+        PasswordResetCompleteView.as_view(),
+        name = "password_reset_complete" 
+    ),
+  path('register/', views.register, name='register'),
+  path('edit/', views.edit, name='edit'),
 ]
